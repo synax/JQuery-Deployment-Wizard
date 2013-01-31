@@ -1,1 +1,1 @@
-cscript "%~dp0KUO_Wizard.wsf"
+cscript "%~dp0KSGR_Wizard.wsf"

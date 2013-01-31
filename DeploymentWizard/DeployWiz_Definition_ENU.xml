@@ -20,7 +20,7 @@
 <Wizard>
 	<Global>
 
-		<CustomStatement><![CDATA[ document.title =  "Kuoni Deployment Wizard" ]]> </CustomStatement>
+		<CustomStatement><![CDATA[ document.title =  "KSGR Deployment Wizard" ]]> </CustomStatement>
 
 		<Initialization>DeployWiz_Initialization.vbs</Initialization>		
 		<Validation>DeployWiz_Validation.vbs</Validation>
