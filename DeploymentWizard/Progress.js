@@ -20,10 +20,9 @@ $(document).ready( function() {
 		of: "#Title"
 	});	
 	
-	AddComputerToImageInvokerCollection();
-	
+		
 	$().toastmessage('showToast',{
-			text     : 'Adding computer to deployment collection...',
+			text     : 'Computer wird der Deployment Collection hinzugefügt...',
 			sticky   : false,
 			stayTime:  5000, 
 			position : 'middle-center',
@@ -40,17 +39,16 @@ var RefreshCollection = function ()
 	
 	// Refresh All Systems Collection
 	oEnvironment.item("REFRESHSUBCOLLECTIONS") = "false";
-	oEnvironment.item("SITECODE") = "ZRH";
 	oEnvironment.item("ALLSYSTEMSCOLLECTIONID") = "SMS00001";
 
 	 $.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KUO_MDTWebservice") + '/RefreshCollection',
+		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/RefreshCollection',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				RefreshSubcollections:oEnvironment.Item("REFRESHSUBCOLLECTIONS"),
-				SiteCode:oEnvironment.Item("SITECODE"),
+				SiteCode:oEnvironment.Item("KSGR_SCCMSiteCode"),
 				CollectionID:oEnvironment.Item("ALLSYSTEMSCOLLECTIONID")
 		
 		},
@@ -78,7 +76,7 @@ var RefreshCollection = function ()
 		
 			oLogging.CreateEntry ("Refresh of collection " + oEnvironment.Item("COLLECTIONID") + " failed... you need to wait for dynamic update (5 Minutes)", LogTypeError);
 		
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KUO_MDTWebservice") + '/RefreshCollection' + " failed with: " + response.responseText, LogTypeInfo);
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/RefreshCollection' + " failed with: " + response.responseText, LogTypeInfo);
 			result = "error";          
 		}
 	});	
@@ -97,12 +95,12 @@ var HasAdvertisement = function ()
 	$.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KUO_MDTWebservice") + '/HasOSDAdvertisement',
+		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				macAddress:oEnvironment.item("MacAddress001"),
 				UUID:oEnvironment.item("smsbiosGUID"),
-				SiteCode:oEnvironment.item("SITECODE")
+				SiteCode:oEnvironment.item("KSGR_SCCMSiteCode")
 		},
 		success: function (response) {
 			$('#result').html('success:');
@@ -117,7 +115,7 @@ var HasAdvertisement = function ()
 				if (result  == "true" ) {
 	
 					$().toastmessage( 'showToast',{
-						text     : 'Deployment Ready!',
+						text     : 'Deployment bereit!',
 						sticky   : true,
 						type     : 'success'						
 					});
@@ -140,7 +138,7 @@ var HasAdvertisement = function ()
 				}else {
 				
 					$().toastmessage('showToast', {
-						text     : 'Waiting for deployment...',
+						text     : 'Warten auf Deployment...',
 						sticky   : false,
 						stayTime:  10000, 
 						position : 'top-center',
@@ -159,7 +157,7 @@ var HasAdvertisement = function ()
 		},
 		error: function (response) {	
 		
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KUO_MDTWebservice") + '/HasOSDAdvertisement' + " failed with: " + response.responseText, LogTypeInfo);
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement' + " failed with: " + response.responseText, LogTypeInfo);
 			result = "error";     
 		}
 	});	
@@ -176,13 +174,13 @@ var AddComputerToCollection = function ()
 	$.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KUO_MDTWebservice") + '/AddComputerToCollection',
+		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/AddComputerToCollection',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				macAddress:oEnvironment.item("MacAddress001"),
 				UUID:oEnvironment.item("smsbiosGUID"),
 				ComputerName:oEnvironment.item("OSDComputerName"),
-				CollectionID:oEnvironment.item("KUO_RequestCollection")
+				CollectionID:oEnvironment.item("KSGR_RequestCollectionID")
 		
 		},
 		success: function (response) {
@@ -193,7 +191,7 @@ var AddComputerToCollection = function ()
 				result = $(this).text();
 				
 				$().toastmessage('showToast',{
-					text     : 'Computer successfully added to deployment collection.',
+					text     : 'Computer wurde erfolgreich in die Deployment Collection eingefügt.',
 					sticky   : true,
 					position : 'top-center',
 					type     : 'success'
@@ -203,7 +201,7 @@ var AddComputerToCollection = function ()
 					value: 30
 				});
 				
-				oLogging.CreateEntry ("Added computer " + oEnvironment.item("OSDComputerName") + " to collection " + oEnvironment.item("KUO_RequestCollection") + " with result " + result, LogTypeInfo);
+				oLogging.CreateEntry ("Added computer " + oEnvironment.item("OSDComputerName") + " to collection " + oEnvironment.item("KSGR_RequestCollection") + " with result " + result, LogTypeInfo);
 			
 				RefreshCollection();
 								 
@@ -212,13 +210,13 @@ var AddComputerToCollection = function ()
 		error: function (response) {
 		
 			$().toastmessage('showToast',{
-				text     : 'Sorry, we could not add the computer to the deployment collection! Please try again later...',
+				text     : 'Sorry, der Computer konnte nicht in die Deployment Collection eingefügt werden! Bitte später erneut versuchen...',
 				sticky   : true,
 				position : 'middle-center',
 				type     : 'error'
 			});
 
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KUO_MDTWebservice") + '/AddComputerToCollection' + " failed with: " + response.responseText, LogTypeInfo);       
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/AddComputerToCollection' + " failed with: " + response.responseText, LogTypeInfo);       
 			result = "error";   
 			
 			oLogging.CreateEntry ("Could not add computer to deployment collection! Please try again later...", LogTypeInfo);
@@ -240,48 +238,6 @@ var AddComputerToCollection = function ()
 			    
 };
 
-var AddComputerToImageInvokerCollection = function ()
-		{				
-	var result;
-
-	$.ajax({
-		type: "GET",
-		async: true,
-		url:  oEnvironment.item("KUO_MDTWebservice") + '/AddComputerToCollection',
-		contentType: "text/xml; charset=utf-8",
-		data: {
-				macAddress:oEnvironment.item("MacAddress001"),
-				UUID:oEnvironment.item("smsbiosGUID"),
-				ComputerName:oEnvironment.item("OSDComputerName"),
-				CollectionID:oEnvironment.item("KUO_ImageInvokerCollection")
-		
-		},
-		success: function (response) {
-			$('#result').html('success:');
-			$(response).find("boolean").each(function () {	         
-										
-				result = $(this).text();
-				
-				oLogging.CreateEntry ("Added computer " + oEnvironment.item("OSDComputerName") + " to collection " + oEnvironment.item("KUO_ImageInvokerCollection") + " with result " + result, LogTypeInfo);
-								 
-			});
-		},
-		error: function (response) {
-		
-
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KUO_MDTWebservice") + '/AddComputerToCollection' + " failed with: " + response.responseText, LogTypeInfo);       
-			result = "error";   
-			
-			oLogging.CreateEntry ("Could not add computer to image invoker collection! Please try again later...", LogTypeInfo);
-												  
-		}
-	});	
-	
-	
-	return result;
-									
-			    
-};
 
 
      

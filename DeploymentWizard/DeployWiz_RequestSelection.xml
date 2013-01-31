@@ -19,7 +19,7 @@
 
 <Wizard>
 
-	<Pane id="RequestSelection" title="Request Selection">
+	<Pane id="RequestSelection" title="Deployment Auswählen">
 		<Body>
 		<![CDATA[
 
@@ -28,9 +28,9 @@
 		<div class="ui-widget" id="effect">
 		
 			<div class="ui-widget" id="deploymenttypeconfig" >
-				<h3 class="ui-widget-header">Deployment Type:</h3>
+				<h3 class="ui-widget-header">Deployment Auswählen:</h3>
 				<div class="ui-widget-content">					
-					<select id="ddAppPortalItem" name="ddAppPortalItem">
+					<select id="ddOSDDeployments" name="ddOSDDeployments">
 						
 					</select> 
 				</div>

@@ -6,7 +6,7 @@ function InitializeRequestSelection() {
 	
 	// Get Packages From AppPortal
 	
-	GetPackages();	
+	GetOSDDeployments();	
 
 	// Initialize Button Styles			
 	$('button').button();
@@ -15,7 +15,7 @@ function InitializeRequestSelection() {
 	loadAutocomplete();
 	
 	// Enable Autoselect Combobox		
-	$("#ddAppPortalItem").combobox();	
+	$("#ddOSDDeployments").combobox();	
 		
 				  				
 		
@@ -29,7 +29,7 @@ function ValidateRequestSelection() {
 	
  	var validationResult = true;
  		
-	if ($("#ddAppPortalItem").val() == null || $("#ddAppPortalItem").val() == "empty") {
+	if ($("#ddOSDDeployments").val() == null || $("#ddOSDDeployments").val() == "empty") {
 
 		oLogging.CreateEntry("No Request selected! Validation failed...", LogTypeInfo);
 
@@ -42,11 +42,10 @@ function ValidateRequestSelection() {
 	
 		// Do Things if validation success
 		
-		oEnvironment.Item("KUO_RequestName") = $("#ddAppPortalItem option:selected").text();
+		oEnvironment.Item("KSGR_RequestName") = $("#ddOSDDeployments option:selected").text();
 		
-		oEnvironment.Item("KUO_RequestId") = $("#ddAppPortalItem").val();
+		oEnvironment.Item("KSGR_RequestCollectionID") = $("#ddOSDDeployments").val();	
 		
-		GetPackageCollection();
 	
 	 }
 	        
@@ -56,56 +55,43 @@ function ValidateRequestSelection() {
 
 // --------------- Functions -------------------------
 
-function GetPackages() {
 
-	$('#ddAppPortalItem').empty();
+var GetOSDDeployments = function ()
+		{
+        
+		$('#ddOSDDeployments').empty();
 	
-	$('#ddAppPortalItem').append('<option class="ui-compobox-item" value="empty"></option>');  	     
-	
-	$.ajax({
-	        type: "GET",
-			async: false,
-	        url:  oEnvironment.item("KUO_AppPortalExtensionUri") + '/api/packages?filter=' + oEnvironment.item("KUO_AppPortalOSDRequestFilter"),
-	        contentType: "text/json; charset=utf-8",			   
-	        success: function (response) {
-	            $('#result').html('success:');
-	            $(response).each(function () {              
-	               	
-					
-					$('#ddAppPortalItem').append('<option value="'+ this.PackageId +'">' + this.PackageTitle + '</option>');   
-	               	                             	
-	            });
-				
-				$('#ddAppPortalItem').val("empty");
-			},
-	        error: function (response) {
-	            $('#result').html('failure:<br />' + response.responseText);
+		$('#ddOSDDeployments').append('<option class="ui-compobox-item" value="empty"></option>');  
 		
-	            oLogging.CreateEntry("Item is: " + oEnvironment.item("KUO_AppPortalExtensionUri") + '/api/packages?filter=' + oEnvironment.item("KUO_AppPortalOSDRequestFilter"), LogTypeInfo);   
-
-	        }
-	    });	  
-}
-
-function GetPackageCollection() {
-
-	$.ajax({
-	        type: "GET",
-			async: false,
-	        url:  oEnvironment.item("KUO_AppPortalExtensionUri") + '/api/packages/' + $("#ddAppPortalItem").val(),
-	        contentType: "text/json; charset=utf-8",			   
-	        success: function (response) {
-	            $('#result').html('success:');
-	            $(response).each(function () {	              
-				
-	               	    oLogging.CreateEntry("Got CollectionID: " + this.CollectionID , LogTypeInfo);
-						oEnvironment.Item("KUO_RequestCollection") = this.CollectionID;
-	            });
-	        },
-	        error: function (response) {
-	            $('#result').html('failure:<br />' + response.responseText);
-	            oLogging.CreateEntry("Error getting Value for: " + oEnvironment.item("KUO_AppPortalExtensionUri") + '/api/packages/' + $("#ddAppPortalItem").val());   
-
-	        }
-	    });	  
-}
+	
+                $.ajax({
+			        type: "GET",
+					async: false,
+			        url:  oEnvironment.item("KSGR_MDTWebservice") + "/sccm.asmx/GetOSDCollections",
+			        contentType: "text/xml; charset=utf-8",
+			        data: {SiteCode:oEnvironment.item("KSGR_SCCMSiteCode")},
+			        success: function (response) {
+			            $('#result').html('success:');
+			            $(response).find("Collection").each(function () {			                     
+			              
+			               	TaskSequenceCollectionID = $(this).find("CollectionID");
+							TaskSequenceCollectionName = $(this).find("Name");
+							
+			    			
+							$('#ddOSDDeployments').append('<option value="'+ TaskSequenceCollectionID.text() +'">' + TaskSequenceCollectionName.text() + '</option>');   
+	
+							
+							oLogging.CreateEntry("Got Deployment from Webservice: " + TaskSequenceCollectionName.text() , LogTypeInfo);		
+							
+									             
+			            });
+			        },
+			        error: function (response) {
+					
+						oLogging.CreateEntry("Webservice Request to " + oEnvironment.item("KSGR_MDTWebservice") + "/sccm.asmx/GetOSDCollections" + "failed with error:<br />" + response.responseText, LogTypeInfo);
+			            	        
+			        }
+			    });					
+									
+			    
+		}

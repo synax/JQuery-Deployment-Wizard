@@ -8,34 +8,31 @@
 			$('button').button();
 			
 			// Hide Request Summary if skiped
-			if (oEnvironment.Item("KUO_SkipRequestSelection") == "Yes") {
+			if (oEnvironment.Item("KSGR_SkipRequestSelection") == "Yes") {
 				
 				$("#requestsummaryarea").hide();
 			
 			}
 			else
 			{
-				$("#sRequestNameField").text(oEnvironment.Item("KUO_RequestName"));
+				$("#sRequestNameField").text(oEnvironment.Item("KSGR_RequestName"));
 			}
 			
 							
 			// Hide Request Summary if skiped			
 	
 			// Hide Request Summary if skiped
-			if (oEnvironment.Item("KUO_SkipComputerConfiguration") == "Yes") {
+			if (oEnvironment.Item("KSGR_SkipComputerConfiguration") == "Yes") {
 				
 				$("#computerconfigurationsummaryarea").hide();
 			
 			}
 			else
 			{
-				$("#sMacAddressField").text(oEnvironment.Item("MACAddress001"));     
-	  	
-				$("#sComputerNameField").text(oEnvironment.Item("OSDComputerName"));     
-				
-				$("#sComputerTypeField").text(oEnvironment.Item("KUO_ComputerTypeName"));     
-				
-				$("#sLocationField").text(oEnvironment.Item("KUO_LocationName"));      
+				$("#sMacAddressField").text(oEnvironment.Item("MACAddress001")); 
+
+					  	
+				$("#sComputerNameField").text(oEnvironment.Item("OSDComputerName"));     		   
 				
 			}
 				

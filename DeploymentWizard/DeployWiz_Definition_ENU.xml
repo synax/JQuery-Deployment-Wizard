@@ -32,16 +32,16 @@
 
 	
 	<Pane id="RequestSelection" reference="DeployWiz_RequestSelection.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipRequestSelection")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipRequestSelection")) <> "YES" ]]></Condition>
 	</Pane>
 
 	
 	<Pane id="ComputerConfiguration" reference="DeployWiz_ComputerConfiguration.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipComputerConfiguration")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipComputerConfiguration")) <> "YES" ]]></Condition>
 	</Pane>
 	
 	<Pane id="Summary" reference="DeployWiz_Summary.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipSummary")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipSummary")) <> "YES" ]]></Condition>
 	</Pane>
 
 
