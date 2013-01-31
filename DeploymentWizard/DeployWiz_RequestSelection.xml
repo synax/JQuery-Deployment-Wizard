@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+' // ***************************************************************************
+' // 
+' // Copyright (c) Microsoft Corporation.  All rights reserved.
+' // 
+' // Microsoft Deployment Toolkit Solution Accelerator
+' //
+' // File:      DeployWiz_Definition_ENU.wsf
+' // 
+' // Version:   6.1.2369.0
+' // 
+' // Purpose:   Main Client Deployment Wizard Defintion File
+' // 
+' // ***************************************************************************
+
+-->
+
+<Wizard>
+
+	<Pane id="RequestSelection" title="Request Selection">
+		<Body>
+		<![CDATA[
+
+	<div>
+		
+		<div class="ui-widget" id="effect">
+		
+			<div class="ui-widget" id="deploymenttypeconfig" >
+				<h3 class="ui-widget-header">Deployment Type:</h3>
+				<div class="ui-widget-content">					
+					<select id="ddAppPortalItem" name="ddAppPortalItem">
+						
+					</select> 
+				</div>
+			</div>				
+	  	</div>	
+	</div>
+		]]>
+		</Body>
+		<Initialization>InitializeRequestSelection() </Initialization>
+		<Validation>ValidateRequestSelection()</Validation>
+	</Pane>
+
+</Wizard>

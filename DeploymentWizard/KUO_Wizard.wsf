@@ -1,0 +1,205 @@
+<job id="ZTIConnect">
+   <script language="VBScript" src="ZTIUtility.vbs"/>
+   <script language="VBScript" src="ZTIDataAccess.vbs"/>
+   <script language="VBScript">
+
+
+
+ZTIProcess
+
+Function ZTIProcess()
+	on error resume next
+	Dim iRetVal
+	Dim sCmd
+
+
+	' Initialization
+
+	iRetVal = Success
+	oEnvironment.Item("DeploymentMethod") = "SCCM"
+ 
+	    
+    '//----------------------------------------------------------------------------
+    '//  Quick-Fix for security issue with Internet Explorer in WinPE 3
+    '//  calling webservices. 
+    '//----------------------------------------------------------------------------
+    
+    Dim regentry
+	Dim WshShell
+    Set WshShell = WScript.CreateObject("WScript.Shell")
+    regentry = "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\"
+    WshShell.RegWrite regentry & "0\1406","0","REG_SZ"
+    WshShell.RegWrite regentry & "1\1406","0","REG_SZ"
+    WshShell.RegWrite regentry & "2\1406","0","REG_SZ"
+    WshShell.RegWrite regentry & "3\1406","0","REG_SZ"
+    WshShell.RegWrite regentry & "4\1406","0","REG_SZ"	   
+     
+
+
+	'//----------------------------------------------------------------------------
+	'//  Set keyboard
+	'//----------------------------------------------------------------------------
+
+
+	
+	 If oEnvironment.Item("KeyboardLocale") <> "" then
+	    sCmd = right("0000" & Hex(GetLocale),4) & ":" & right("00000000" & Hex(GetLocale), 8)
+	    If UCase(oEnvironment.Item("KeyboardLocale")) <> UCase( sCmd ) then
+		    sCmd = "wpeutil.exe SetKeyboardLayout " & oEnvironment.Item("KeyboardLocale")
+		    RunAndLog sCmd, false
+	    End If 
+	 End If
+	 
+	 
+	'//----------------------------------------------------------------------------
+	'//  Start
+	'//----------------------------------------------------------------------------
+	oEnvironment.Item("WizardComplete") = "N"
+	
+	
+	oLogging.CreateEntry "run a gather" , LogTypeInfo
+		
+	RunGather
+	
+	oLogging.CreateEntry "check args" , LogTypeInfo
+	
+	oLogging.CreateEntry "args= "& WScript.Arguments.Item(0) , LogTypeInfo
+	
+	    
+    '//----------------------------------------------------------------------------
+    '// Load the Wizard
+    
+    Dim sDefinition
+	sDefinition = "DeployWiz_Definition_ENU.xml"
+	
+	oLogging.CreateEntry "Start the HTA with: " & sDefinition, LogTypeInfo
+
+	sCmd = "mshta.exe " & oUtility.ScriptDir & "\Wizard.hta /debug:true /definition:" & sDefinition
+	'sCmd = "mshta.exe " & Chr(34) & oUtility.ScriptDir & "\wizard.hta" & Chr(34)
+
+	oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo
+
+	oShell.run sCmd,0,True
+	
+	' See if the wizard completed or was cancelled
+
+	If oEnvironment.Item("WizardComplete") <> "Y" then
+		oLogging.CreateEntry "The wizard was cancelled, setting OSDSetupWizCancelled = TRUE", LogTypeInfo
+		oEnvironment.Item("OSDSetupWizCancelled") = "TRUE"
+		iRetVal = -1
+	Else
+	
+		If oEnvironment.Item("KUO_SkipRequestSelection") <> "YES" then
+		
+			sCmd = "mshta.exe " & oUtility.ScriptDir & "\Progress.hta"		
+			oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo
+		
+		End If
+
+	End If
+	
+	oShell.run sCmd,0,True
+	
+ 
+	
+End Function
+
+Function MapnXCopy
+	Dim sCmd
+
+	'sCmd = "mshta.exe " & Chr(34) & remoteScriptDir & "\wizard.hta /definition:" & sDefinition & Chr(34)
+  	
+  	sCmd="NET USE " & oEnvironment.Item("NetUseDrive") & " " & oEnvironment.Item("NetUseShare") & " " & oEnvironment.Item("NetUsePassword") & " /user:" & oEnvironment.Item("NetUseID") & ""
+  	
+    oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo
+    
+    oShell.run sCmd,0,True 
+	If err.number <> 0 then
+	    oLogging.CreateEntry "MapnXCopy: " & err.description, LogTypeWarning
+	    oLogging.CreateEntry "MapnXCopy: " & err.number, LogTypeWarning
+	    MapnXCopy=false
+	   
+	Else
+		Dim scriptsource		
+		scriptsource=oEnvironment.Item("NetUseDrive") & oEnvironment.Item("NetUseDir")
+		
+		sCmd="XCOPY " & scriptsource & " X:\Deploy\Scripts /Y"
+		
+	    'sCmd="XCOPY Z:\_Sources\WinPE\Deploy\Scripts X:\Deploy\Scripts /Y"
+	    
+	   	oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo  
+	   	  
+    	oShell.run sCmd,0,True 
+    	If err.number <> 0 then
+	    	oLogging.CreateEntry "MapnXCopy: " & err.description, LogTypeWarning
+	    	oLogging.CreateEntry "MapnXCopy: " & err.number, LogTypeWarning
+	    	
+	    	MapnXCopy=false
+	   	Else
+		   	oLogging.CreateEntry "MapnXCopy/Copy files SUCCESS: ", LogTypeInfo
+		   	
+		   	'// close Z:
+		   	sCmd="NET USE " & oEnvironment.Item("NetUseDrive") & " /delete"
+	    	oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo    
+	    	oShell.run sCmd,0,True  
+	    	
+		   	MapnXCopy=True
+		   	
+	   	End if	
+	End If
+
+End Function
+
+
+Function RunGather
+
+ 	Dim iRetVal
+	Dim sCmd	
+	Dim bFound
+
+	'sCmd = "wscript.exe """ & oUtility.ScriptDir & "\ZTIGather.wsf"" "    	
+ 	sCmd = "wscript.exe """ & oUtility.ScriptDir & "\ZTIGather.wsf"" /inifile:customsettings.ini"
+ 	
+	iRetVal = RunAndLog(sCmd, true)
+
+	RunGather = iRetVal
+
+End Function
+
+
+Function RunAndLog(sCmd, bDebuggable)
+
+	Dim iRetVal
+	Dim iShow
+
+
+	If oLogging.Debug and bDebuggable then
+		sCmd = sCmd & " /debug:true"
+		iShow = 1
+	Else
+		iShow = 0
+	End if
+
+
+	oLogging.CreateEntry "About to run command: " & sCmd, LogTypeInfo
+
+	On Error Resume Next
+	iRetVal = oShell.Run(sCmd, iShow, true)
+	If Err then
+		iRetVal = Err.Number
+		oLogging.CreateEntry "ERROR executing command " & sCmd & ": " & Err.Description & " (" & Err.Number & ")", LogTypeError
+	ElseIf iRetVal = -2147021886 or iRetVal = 0 then
+		oLogging.CreateEntry "Successfully executed command " & sCmd & ", rc = " & CStr(iRetVal), LogTypeInfo
+	Else
+		oLogging.CreateEntry "Non-zero return code executing command " & sCmd & ", rc = " & iRetVal, LogTypeWarning
+	End if
+	RunAndLog = iRetVal
+	On Error Goto 0
+
+End Function
+
+
+
+
+   </script>
+</job>

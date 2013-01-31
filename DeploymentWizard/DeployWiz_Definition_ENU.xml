@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+' // ***************************************************************************
+' // 
+' // Copyright (c) Microsoft Corporation.  All rights reserved.
+' // 
+' // Microsoft Deployment Toolkit Solution Accelerator
+' //
+' // File:      DeployWiz_Definition_ENU.wsf
+' // 
+' // Version:   6.1.2369.0
+' // 
+' // Purpose:   Main Client Deployment Wizard Defintion File
+' // 
+' // ***************************************************************************
+
+-->
+
+<Wizard>
+	<Global>
+
+		<CustomStatement><![CDATA[ document.title =  "Kuoni Deployment Wizard" ]]> </CustomStatement>
+
+		<Initialization>DeployWiz_Initialization.vbs</Initialization>		
+		<Validation>DeployWiz_Validation.vbs</Validation>
+
+	</Global>
+
+	<!-- ************************************************************** -->
+	<!-- ************************************************************** -->
+
+	
+	<Pane id="RequestSelection" reference="DeployWiz_RequestSelection.xml">
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipRequestSelection")) <> "YES" ]]></Condition>
+	</Pane>
+
+	
+	<Pane id="ComputerConfiguration" reference="DeployWiz_ComputerConfiguration.xml">
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipComputerConfiguration")) <> "YES" ]]></Condition>
+	</Pane>
+	
+	<Pane id="Summary" reference="DeployWiz_Summary.xml">
+		<Condition><![CDATA[ ucase(oEnvironment.Item("KUO_SkipSummary")) <> "YES" ]]></Condition>
+	</Pane>
+
+
+</Wizard>

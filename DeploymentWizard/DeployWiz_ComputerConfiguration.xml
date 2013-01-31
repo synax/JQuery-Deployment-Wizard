@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+' // ***************************************************************************
+' // 
+' // Copyright (c) Microsoft Corporation.  All rights reserved.
+' // 
+' // Microsoft Deployment Toolkit Solution Accelerator
+' //
+' // File:      DeployWiz_Definition_ENU.wsf
+' // 
+' // Version:   6.1.2369.0
+' // 
+' // Purpose:   Main Client Deployment Wizard Defintion File
+' // 
+' // ***************************************************************************
+
+-->
+
+<Wizard>
+	
+
+	<Pane id="ComputerConfiguration" title="Computer Details">
+		<Body>
+		<![CDATA[
+
+	<div>
+		
+		<div class="ui-widget" id="effect">		
+			
+			
+				
+		<div class="ui-widget"  id="locationconfig">
+				<h3 class="ui-widget-header">Location:</h3>
+				<div class="ui-widget-content" id="locationconfigcontent">
+					<select id="ddAppPortalRole" name="ddAppPortalRole">
+				
+					</select>					
+				
+					<input type="checkbox" id="customSettings" style="margin: 10px; padding: 0.7em;"/><label id="customSettingsLabel"  for="customSettings">Use Custom Settings</label>
+								
+				</div>		
+					
+				
+	    </div>
+			
+			
+			
+			<div class="ui-widget" id="computertypeconfig">
+				<h3 class="ui-widget-header">Computer Type:</h3>
+				<div class="ui-widget-content" id="computertypeconfigcontent">
+					<select id="ddComputerPrefix" name="ddComputerPrefix">
+						<option value="W">Desktop</option>
+						<option value="T">Desktop Thin PC</option>
+						<option value="L">Laptop</option>						
+						<option value="N">Laptop Thin PC</option>
+						<option value="V">Virtual Machine</option>
+					</select> 
+					
+
+				</div>
+			</div>	
+			
+			<div class="ui-widget" id="computerinfo">
+				<h3 class="ui-widget-header">Computer Info:</h3>
+				<div class="ui-widget-content">
+					<div class="ui-state-highlight" style="margin: 10px; padding: 0.7em;"> 
+						<strong style="font-weight:bold">MAC Address: </strong><span id="sMacAddressField" name="sMacAddressField"></span>
+					</div>
+					<div class="ui-state-error" id="getcomputernameerror" style="margin: 10px; padding: 0.7em;"> 
+						<strong style="font-weight:bold"></strong>
+					</div>
+				</div>
+			</div>	
+			
+
+						
+	  </div>	
+</div>
+
+
+
+		]]>
+		</Body>
+			<Initialization>InitializeComputerConfiguration()</Initialization>
+			<Validation>ValidateComputerConfiguration()</Validation>
+	</Pane>
+
+</Wizard>

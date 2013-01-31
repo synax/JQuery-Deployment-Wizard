@@ -1,0 +1,1 @@
+cscript "%~dp0KUO_Wizard.wsf"

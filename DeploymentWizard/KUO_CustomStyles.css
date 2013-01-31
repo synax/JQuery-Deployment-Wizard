@@ -1,0 +1,50 @@
+﻿.ui-combobox {
+	width:50px;
+	position: relative;
+	font-size:10pt;
+	display: inline-block;
+	margin:10px;
+}
+
+
+.ui-combobox-toggle {
+	position: absolute;
+	font-size:10pt;
+	top: 0;
+	bottom: 0;
+	margin-left: 0px;
+	padding: 0;
+/* adjust styles for IE 6/7 */ *height: 2.3em; *;
+	
+}
+
+.ui-compobox-item {
+	font-size:10pt;
+}
+
+#customSettingsLabel{ margin: 10px; padding: 0em; width:480px; }
+
+.ui-combobox-input {
+	margin: 0;
+	width:430px;
+	height:30px;
+	font-size:10pt;
+	padding: 0.3em;
+}
+
+.toggler { width: 490px; height: 200px; position: relative; font-size:10pt; }
+
+#RightWizardButtons { padding: .5em 1em; font-size:10pt; margin: 10px; padding: 0.7em; } 
+
+#effect {
+	width:490px;
+	margin: 5px;
+	font-size:10pt;
+	position:relative;
+	background: #fff;
+	color: #808080;
+}
+
+#effect h3 { margin: 0; padding: 0.4em; text-align:left; font-size:12pt;}
+	
+#effect h4 { margin: 0; padding: 0.4em; text-align:left; font-size:12pt;}

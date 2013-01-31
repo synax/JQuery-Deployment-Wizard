@@ -1,0 +1,97 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<!--
+
+' // ***************************************************************************
+' // 
+' // Copyright (c) Microsoft Corporation.  All rights reserved.
+' // 
+' // Microsoft Deployment Toolkit Solution Accelerator
+' //
+' // File:      Wizard.hta
+' // 
+' // Version:   6.1.2369.0
+' // 
+' // Purpose:   Displays a progress window during progress
+' // 
+' // ***************************************************************************
+
+-->
+
+<head>
+	<title> Preparing Deployment...</title>
+	<meta content="text/VBScript" http-equiv="content-script-type" />
+	<meta name="vs_defaultClientScript" content="VBScript" />
+	<meta name="GENERATOR" content="Microsoft Visual Studio .NET 7.1">
+	<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	<meta http-equiv="MSThemeCompatible" CONTENT="Yes" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+	<link href="css\kuoni-grey\jquery-ui-1.9.1.custom.css" rel="stylesheet" type="text/css">
+	<link href="KUO_CustomStylesProgress.css" rel="stylesheet" type="text/css">
+	<link href="Toastmessage\css\jquery.toastmessage.css" rel="stylesheet" type="text/css">
+	
+	<!--<link href="ui.notify.css" rel="stylesheet" type="text/css">-->
+	<HTA:APPLICATION ID="oProgress" APPLICATIONNAME="" CAPTION="Preparing Deployment..." ICON="Progress.ico"
+		SCROLL="no"
+		SELECTION="no"
+		INNERBORDER="no"
+		BORDER="none"
+		SINGLEINSTANCE="no"
+		SYSMENU="yes"
+		MAXIMIZEBUTTON="no"
+		MINIMIZEBUTTON="no"
+		WINDOWSTATE="maximize"
+		
+	/>
+	<script language="vbscript" type="text/vbscript" >
+	<!--
+
+	' Set the default size and location (Perform early)
+
+	
+
+	-->
+	</script>
+	<script language="vbscript" type="text/vbscript" src="ZTIUtility.vbs"></script> 
+	<script language="vbscript" type="text/vbscript" src="WizUtility.vbs"> </script>
+	<script language="vbscript" type="text/vbscript" src="ZTIConfigFile.vbs"> </script>
+	<script language="vbscript" type="text/vbscript" src="ZTIDiskUtility.vbs"> </script>
+	<script language="vbscript" type="text/vbscript" src="ZTIDataAccess.vbs"> </script>
+	<script language="javascript" type="text/javascript" src="jquery-1.8.2.min.js"></script>
+	<script language="javascript" type="text/javascript" src="jquery-ui-1.9.1.custom.min.js"></script>
+	<script language="javascript" src="Progress.js" type="text/javascript"></script>
+	<script language="javascript" src="jquery.spin.js" type="text/javascript"></script>
+	<script language="javascript" src="Toastmessage/jquery.toastmessage.js" type="text/javascript"></script>
+	<script language="javascript" src="spin.js" type="text/javascript"></script>
+	<script language="javascript" src="jquery.ba-dotimeout.js" type="text/javascript"></script>
+	
+	
+	</script>
+	</head>
+
+
+	<body style="background-color: #F0F0F0;"  >
+		<!-- Create a table to place all of our content in. Makes resizing of windows easier -->
+		<table id="MyContentArea" class="ContentArea" style="background-color: #F0F0F0;"  cellpadding="0" cellspacing="0" border="0" width="100%" style="height: 100%;">
+			<tr >
+				<td	>
+					<div class="ui-widget" >
+						<div id="Title" style="height: 150px;"  >	
+							<h3 >Preparing Deployment...</h3>	
+							<div id="Spin"></div>															
+						</div>						
+					</div>
+					<!-- set the container hidden to avoid a flash of unstyled content when the page first loads -->	
+				</td>
+			</tr>
+			<tr >
+				<td id="Messages">
+					
+				
+					
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
