@@ -42,9 +42,9 @@ function ValidateRequestSelection() {
 	
 		// Do Things if validation success
 		
-		oEnvironment.Item("KSGR_RequestName") = $("#ddOSDDeployments option:selected").text();
+		oEnvironment.Item("RED_RequestName") = $("#ddOSDDeployments option:selected").text();
 		
-		oEnvironment.Item("KSGR_RequestCollectionID") = $("#ddOSDDeployments").val();	
+		oEnvironment.Item("RED_RequestCollectionID") = $("#ddOSDDeployments").val();	
 		
 	
 	 }
@@ -67,9 +67,9 @@ var GetOSDDeployments = function ()
                 $.ajax({
 			        type: "GET",
 					async: false,
-			        url:  oEnvironment.item("KSGR_MDTWebservice") + "/sccm.asmx/GetOSDCollections",
+			        url:  oEnvironment.item("RED_MDTWebservice") + "/sccm.asmx/GetOSDCollections",
 			        contentType: "text/xml; charset=utf-8",
-			        data: {SiteCode:oEnvironment.item("KSGR_SCCMSiteCode")},
+			        data: {SiteCode:oEnvironment.item("RED_SCCMSiteCode")},
 			        success: function (response) {
 			            $('#result').html('success:');
 			            $(response).find("Collection").each(function () {			                     
@@ -88,7 +88,7 @@ var GetOSDDeployments = function ()
 			        },
 			        error: function (response) {
 					
-						oLogging.CreateEntry("Webservice Request to " + oEnvironment.item("KSGR_MDTWebservice") + "/sccm.asmx/GetOSDCollections" + "failed with error:<br />" + response.responseText, LogTypeInfo);
+						oLogging.CreateEntry("Webservice Request to " + oEnvironment.item("RED_MDTWebservice") + "/sccm.asmx/GetOSDCollections" + "failed with error:<br />" + response.responseText, LogTypeInfo);
 			            	        
 			        }
 			    });					

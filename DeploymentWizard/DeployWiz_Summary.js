@@ -8,21 +8,21 @@
 			$('button').button();
 			
 			// Hide Request Summary if skiped
-			if (oEnvironment.Item("KSGR_SkipRequestSelection") == "Yes") {
+			if (oEnvironment.Item("RED_SkipRequestSelection") == "Yes") {
 				
 				$("#requestsummaryarea").hide();
 			
 			}
 			else
 			{
-				$("#sRequestNameField").text(oEnvironment.Item("KSGR_RequestName"));
+				$("#sRequestNameField").text(oEnvironment.Item("RED_RequestName"));
 			}
 			
 							
 			// Hide Request Summary if skiped			
 	
 			// Hide Request Summary if skiped
-			if (oEnvironment.Item("KSGR_SkipComputerConfiguration") == "Yes") {
+			if (oEnvironment.Item("RED_SkipComputerConfiguration") == "Yes") {
 				
 				$("#computerconfigurationsummaryarea").hide();
 			

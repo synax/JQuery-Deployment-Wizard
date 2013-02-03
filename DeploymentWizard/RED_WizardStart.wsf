@@ -128,7 +128,7 @@ Function ZTIProcess()
 		oEnvironment.Item("OSDSetupWizCancelled") = "TRUE"
 		iRetVal = -1
 	Else	
-		If oEnvironment.Item("KUO_SkipRequestSelection") <> "YES" then
+		If oEnvironment.Item("RED_SkipRequestSelection") <> "YES" then
 			
 			sCmd = "ServiceUI.exe -process:" & sProcessName & " %WINDIR%\system32\mshta.exe " & oUtility.ScriptDir & "\Progress.hta"
 			

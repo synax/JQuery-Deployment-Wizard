@@ -7,6 +7,8 @@ $(document).ready( function() {
 	$("#Spin").progressbar({
             value: 10
         });
+		
+	
 	
 	$("#Title").position({
 		my: "bottom",
@@ -44,11 +46,11 @@ var RefreshCollection = function ()
 	 $.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/RefreshCollection',
+		url:  oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/RefreshCollection',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				RefreshSubcollections:oEnvironment.Item("REFRESHSUBCOLLECTIONS"),
-				SiteCode:oEnvironment.Item("KSGR_SCCMSiteCode"),
+				SiteCode:oEnvironment.Item("RED_SCCMSiteCode"),
 				CollectionID:oEnvironment.Item("ALLSYSTEMSCOLLECTIONID")
 		
 		},
@@ -76,7 +78,7 @@ var RefreshCollection = function ()
 		
 			oLogging.CreateEntry ("Refresh of collection " + oEnvironment.Item("COLLECTIONID") + " failed... you need to wait for dynamic update (5 Minutes)", LogTypeError);
 		
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/RefreshCollection' + " failed with: " + response.responseText, LogTypeInfo);
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/RefreshCollection' + " failed with: " + response.responseText, LogTypeInfo);
 			result = "error";          
 		}
 	});	
@@ -95,12 +97,12 @@ var HasAdvertisement = function ()
 	$.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement',
+		url:  oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				macAddress:oEnvironment.item("MacAddress001"),
 				UUID:oEnvironment.item("smsbiosGUID"),
-				SiteCode:oEnvironment.item("KSGR_SCCMSiteCode")
+				SiteCode:oEnvironment.item("RED_SCCMSiteCode")
 		},
 		success: function (response) {
 			$('#result').html('success:');
@@ -157,7 +159,7 @@ var HasAdvertisement = function ()
 		},
 		error: function (response) {	
 		
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement' + " failed with: " + response.responseText, LogTypeInfo);
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/HasOSDAdvertisement' + " failed with: " + response.responseText, LogTypeInfo);
 			result = "error";     
 		}
 	});	
@@ -174,13 +176,13 @@ var AddComputerToCollection = function ()
 	$.ajax({
 		type: "GET",
 		async: true,
-		url:  oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/AddComputerToCollection',
+		url:  oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/AddComputerToCollection',
 		contentType: "text/xml; charset=utf-8",
 		data: {
 				macAddress:oEnvironment.item("MacAddress001"),
 				UUID:oEnvironment.item("smsbiosGUID"),
 				ComputerName:oEnvironment.item("OSDComputerName"),
-				CollectionID:oEnvironment.item("KSGR_RequestCollectionID")
+				CollectionID:oEnvironment.item("RED_RequestCollectionID")
 		
 		},
 		success: function (response) {
@@ -201,7 +203,7 @@ var AddComputerToCollection = function ()
 					value: 30
 				});
 				
-				oLogging.CreateEntry ("Added computer " + oEnvironment.item("OSDComputerName") + " to collection " + oEnvironment.item("KSGR_RequestCollection") + " with result " + result, LogTypeInfo);
+				oLogging.CreateEntry ("Added computer " + oEnvironment.item("OSDComputerName") + " to collection " + oEnvironment.item("RED_RequestCollection") + " with result " + result, LogTypeInfo);
 			
 				RefreshCollection();
 								 
@@ -216,7 +218,7 @@ var AddComputerToCollection = function ()
 				type     : 'error'
 			});
 
-			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("KSGR_MDTWebservice") + '/sccm.asmx/AddComputerToCollection' + " failed with: " + response.responseText, LogTypeInfo);       
+			oLogging.CreateEntry("Request to Webservice " + oEnvironment.item("RED_MDTWebservice") + '/sccm.asmx/AddComputerToCollection' + " failed with: " + response.responseText, LogTypeInfo);       
 			result = "error";   
 			
 			oLogging.CreateEntry ("Could not add computer to deployment collection! Please try again later...", LogTypeInfo);

@@ -20,7 +20,7 @@
 <Wizard>
 	<Global>
 
-		<CustomStatement><![CDATA[ document.title =  "KSGR Deployment Wizard" ]]> </CustomStatement>
+		<CustomStatement><![CDATA[ document.title =  "Deployment Wizard" ]]> </CustomStatement>
 
 		<Initialization>DeployWiz_Initialization.vbs</Initialization>		
 		<Validation>DeployWiz_Validation.vbs</Validation>
@@ -32,16 +32,19 @@
 
 	
 	<Pane id="RequestSelection" reference="DeployWiz_RequestSelection.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipRequestSelection")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("RED_SkipRequestSelection")) <> "YES" ]]></Condition>
 	</Pane>
-
+	
+	<Pane id="RolesSelection" reference="DeployWiz_Roles.xml">
+		<Condition><![CDATA[ ucase(oEnvironment.Item("RED_SkipRoleSelection")) <> "YES" ]]></Condition>
+	</Pane>
 	
 	<Pane id="ComputerConfiguration" reference="DeployWiz_ComputerConfiguration.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipComputerConfiguration")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("RED_SkipComputerConfiguration")) <> "YES" ]]></Condition>
 	</Pane>
 	
 	<Pane id="Summary" reference="DeployWiz_Summary.xml">
-		<Condition><![CDATA[ ucase(oEnvironment.Item("KSGR_SkipSummary")) <> "YES" ]]></Condition>
+		<Condition><![CDATA[ ucase(oEnvironment.Item("RED_SkipSummary")) <> "YES" ]]></Condition>
 	</Pane>
 
 

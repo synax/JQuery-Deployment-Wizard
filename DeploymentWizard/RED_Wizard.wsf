@@ -89,7 +89,7 @@ Function ZTIProcess()
 		iRetVal = -1
 	Else
 	
-		If oEnvironment.Item("KSGR_SkipRequestSelection") <> "YES" then
+		If oEnvironment.Item("RED_SkipRequestSelection") <> "YES" then
 		
 			sCmd = "mshta.exe " & oUtility.ScriptDir & "\Progress.hta"		
 			oLogging.CreateEntry "Executing: " & sCmd, LogTypeInfo

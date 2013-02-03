@@ -27,8 +27,8 @@
 	<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
 	<meta http-equiv="MSThemeCompatible" CONTENT="Yes" />
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
-	<link href="css\ksgr-grey\jquery-ui-1.9.1.custom.css" rel="stylesheet" type="text/css">
-	<link href="KSGR_CustomStylesProgress.css" rel="stylesheet" type="text/css">
+	<link href="css\red-grey\jquery-ui-1.9.1.custom.css" rel="stylesheet" type="text/css">
+	<link href="RED_CustomStylesProgress.css" rel="stylesheet" type="text/css">
 	<link href="Toastmessage\css\jquery.toastmessage.css" rel="stylesheet" type="text/css">
 	
 	<!--<link href="ui.notify.css" rel="stylesheet" type="text/css">-->
@@ -58,7 +58,7 @@
 	<script language="vbscript" type="text/vbscript" src="ZTIConfigFile.vbs"> </script>
 	<script language="vbscript" type="text/vbscript" src="ZTIDiskUtility.vbs"> </script>
 	<script language="vbscript" type="text/vbscript" src="ZTIDataAccess.vbs"> </script>
-	<script language="javascript" type="text/javascript" src="jquery-1.8.2.min.js"></script>
+	<script language="javascript" type="text/javascript" src="jquery-1.9.0.min.js"></script>
 	<script language="javascript" type="text/javascript" src="jquery-ui-1.9.1.custom.min.js"></script>
 	<script language="javascript" src="Progress.js" type="text/javascript"></script>
 	<script language="javascript" src="jquery.spin.js" type="text/javascript"></script>
@@ -73,10 +73,23 @@
 
 	<body style="background-color: #F0F0F0;"  >
 		<!-- Create a table to place all of our content in. Makes resizing of windows easier -->
+		
+		
+		
 		<table id="MyContentArea" class="ContentArea" style="background-color: #F0F0F0;"  cellpadding="0" cellspacing="0" border="0" width="100%" style="height: 100%;">
+
+			<tr>
+				<td	 align="center" height="-200">
+					<div class="ui-widget" >
+					<div id="Logo"><img id="LogoProgress" src="LogoProgess.png" /></div>
+					</div>
+				</td>
+			</tr>		
+			
 			<tr >
 				<td	>
 					<div class="ui-widget" >
+						
 						<div id="Title" style="height: 150px;"  >	
 							<h3 >Deployment wird vorbereitet...</h3>	
 							<div id="Spin"></div>															
@@ -85,6 +98,8 @@
 					<!-- set the container hidden to avoid a flash of unstyled content when the page first loads -->	
 				</td>
 			</tr>
+			
+		
 			<tr >
 				<td id="Messages">
 					
@@ -92,6 +107,7 @@
 					
 				</td>
 			</tr>
+				
 		</table>
 	</body>
 </html>
