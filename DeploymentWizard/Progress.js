@@ -224,7 +224,7 @@ var AddComputerToCollection = function ()
 			oLogging.CreateEntry ("Could not add computer to deployment collection! Please try again later...", LogTypeInfo);
 										
 			// Wait 15 more seconds, just in case
-			$.doTimeout( 1500, function(){					
+			$.doTimeout( 20000, function(){					
 		 
 				window.close(); 
 
